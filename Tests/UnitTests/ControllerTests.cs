@@ -12,13 +12,14 @@ public class ControllerTests
     [Fact]
     public void DeleteConfirmedShouldCallTaskService()
     {
+        const int id = 1;
         var task = TestDataHelper.GetFakeTaskList()[0];
         var serviceMock = new Mock<ITasksService>();
-        serviceMock.Setup(x => x.GetById(1))
+        serviceMock.Setup(x => x.GetById(id))
             .Returns(task);
 
         var controller = new TaskController(serviceMock.Object);
-        controller.DeleteConfirmed(1);
+        controller.DeleteConfirmed(id);
 
         serviceMock.Verify(x => x.RemoveTask(task), Times.Once);
     }
@@ -171,5 +172,4 @@ public class ControllerTests
         var action = ((RedirectToActionResult)result).ActionName;
         Assert.Equal(nameof(Index), action);
     }
-
 }

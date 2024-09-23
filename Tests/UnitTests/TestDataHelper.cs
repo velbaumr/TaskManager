@@ -1,7 +1,7 @@
 ﻿using Task = Tasks.Models.Task;
 using TaskStatus = Tasks.Models.TaskStatus;
 
-namespace Tests;
+namespace Tests.UnitTests;
 
 public static class TestDataHelper
 {
