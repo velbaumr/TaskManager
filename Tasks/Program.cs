@@ -29,6 +29,23 @@ if (!app.Environment.IsDevelopment())
 app.UseHttpsRedirection();
 app.UseStaticFiles();
 
+app.UseStatusCodePages(context =>
+{
+    var response = context.HttpContext.Response;
+    var statusCode = response.StatusCode;
+
+    var redirectPaths = new Dictionary<int, string>
+    {
+        { 404, "/StatusCode/NotFoundCode/" },
+        { 400, "/StatusCode/BadRequestCode/" },
+        { 500, "/StatusCode/ServerErrorCode/" }
+    };
+
+    if (redirectPaths.TryGetValue(statusCode, out var path)) response.Redirect(path);
+
+    return Task.CompletedTask;
+});
+
 app.UseRouting();
 
 app.UseAuthorization();
