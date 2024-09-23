@@ -11,5 +11,5 @@ public class TasksDbContext: DbContext
     {
     }
 
-    public DbSet<Task> Tasks { get; set; }
+    public virtual DbSet<Task> Tasks { get; set; }
 }
