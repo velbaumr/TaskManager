@@ -4,7 +4,6 @@ using Moq;
 using Tasks.DataAccess;
 using Tasks.Services;
 using TaskStatus = Tasks.Models.TaskStatus;
-using Task = Tasks.Models.Task;
 
 namespace Tests.UnitTests;
 
@@ -46,7 +45,7 @@ public class TasksServiceTests
     }
 
     [Fact]
-    public void ShouldsearchByKeywords()
+    public void ShouldSearchByKeywords()
     {
         var contextMock = SetupContextMock();
 

@@ -1,5 +1,6 @@
 using Microsoft.EntityFrameworkCore;
 using Tasks.DataAccess;
+using Tasks.Services;
 
 var builder = WebApplication.CreateBuilder(args);
 var configuration = builder.Configuration;
@@ -8,6 +9,7 @@ var configuration = builder.Configuration;
 builder.Services.AddControllersWithViews();
 builder.Services.AddDbContext<TasksDbContext>(options =>
     options.UseSqlite(configuration.GetConnectionString("DefaultConnection")));
+builder.Services.AddScoped<ITasksService, TasksService>();
 
 var app = builder.Build();
 
