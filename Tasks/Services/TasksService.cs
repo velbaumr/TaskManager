@@ -32,10 +32,10 @@ public class TasksService(TasksDbContext context) : ITasksService
         var keywords = GetKeywords(searchString);
 
         var titles = context.Tasks
-            .Where("t => @0.Any(s => t.Title.Contains(s, StringComparison.CurrentCultureIgnoreCase))", keywords).ToList();
+            .Where("t => @0.Any(s => t.Description.ToLower().Contains(s.ToLower()))", keywords).ToList();
 
         var descriptions = context.Tasks
-            .Where("t => @0.Any(s => t.Description.Contains(s, StringComparison.CurrentCultureIgnoreCase))", keywords).ToList();
+            .Where("t => @0.Any(s => t.Description.ToLower().Contains(s.ToLower()))", keywords).ToList();
 
         return titles.Union(descriptions);
     }
