@@ -1,5 +1,6 @@
 using Microsoft.EntityFrameworkCore;
 using Tasks.DataAccess;
+using Tasks.Handlers;
 using Tasks.Services;
 
 var builder = WebApplication.CreateBuilder(args);
@@ -10,6 +11,8 @@ builder.Services.AddControllersWithViews();
 builder.Services.AddDbContext<TasksDbContext>(options =>
     options.UseSqlite(configuration.GetConnectionString("DefaultConnection")));
 builder.Services.AddScoped<ITasksService, TasksService>();
+builder.Services.AddExceptionHandler<TasksExceptionHandler>();
+builder.Services.AddProblemDetails();
 
 var app = builder.Build();
 
@@ -18,17 +21,10 @@ using (var scope = app.Services.CreateScope())
     using var context = scope.ServiceProvider.GetRequiredService<TasksDbContext>();
     context.Database.Migrate();
 }
-// Configure the HTTP request pipeline.
-if (!app.Environment.IsDevelopment())
-{
-    app.UseExceptionHandler("/Home/Error");
-    // The default HSTS value is 30 days. You may want to change this for production scenarios, see https://aka.ms/aspnetcore-hsts.
-    app.UseHsts();
-}
 
 app.UseHttpsRedirection();
 app.UseStaticFiles();
-
+app.UseExceptionHandler();
 app.UseStatusCodePages(context =>
 {
     var response = context.HttpContext.Response;
